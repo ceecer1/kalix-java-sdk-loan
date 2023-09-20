@@ -35,7 +35,6 @@ public class LoanAppService extends EventSourcedEntity<LoanAppDomainState, LoanA
                 .build();
     }
 
-
     @PostMapping("/submit")
     public Effect<LoanAppApi.EmptyResponse> submit(@RequestBody LoanAppApi.SubmitRequest request){
         switch (currentState().getStatus()) {
