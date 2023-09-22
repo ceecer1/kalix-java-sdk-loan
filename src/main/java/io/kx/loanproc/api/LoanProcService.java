@@ -4,6 +4,7 @@ import io.grpc.Status;
 import io.kx.loanproc.domain.LoanProcDomainEvent;
 import io.kx.loanproc.domain.LoanProcDomainState;
 import kalix.javasdk.annotations.EventHandler;
+import kalix.javasdk.annotations.Id;
 import kalix.javasdk.annotations.TypeId;
 import kalix.javasdk.annotations.TypeName;
 import kalix.javasdk.eventsourcedentity.EventSourcedEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.Instant;
+
 
 @TypeId("loanAppId")
 @TypeName("loanproc")
@@ -31,9 +33,8 @@ public class LoanProcService extends EventSourcedEntity<LoanProcDomainState, Loa
         return LoanProcDomainState.empty(loanAppId);
     }
 
-
     @PostMapping("/process")
-    public Effect<LoanProcApi.EmptyResponse> process(){
+    public Effect<LoanProcApi.EmptyResponse> process() {
         switch (currentState().status()) {
             case STATUS_UNKNOWN -> {
                 LoanProcDomainEvent.ReadyForReview event =
